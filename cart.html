@@ -3,10 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart - RALAT CRUNCHIES | Premium Coconut Chips</title>
+  <title>Cart - RALAT CRUNCHIES</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-item {
+      background: white;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .quantity-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
@@ -20,23 +49,26 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="cart.html" class="active">Cart (<span id="cartCount">0</span>)</a></li>
-      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
     </ul>
   </div>
 </nav>
 
-<section class="cart-section" style="padding: 60px 20px; min-height: 70vh; background: #fffaf0;">
+<section class="cart-section" style="padding: 60px 20px; min-height: 70vh;">
   <div class="container">
-    <h1 style="text-align:center; margin-bottom: 30px;">🛒 Your Cart</h1>
+    <h1 style="text-align:center;">🛒 Your Cart</h1>
     
-    <div id="cart-items" class="cart-items" style="margin: 30px 0;"></div>
+    <div id="cart-items" style="margin: 30px 0;"></div>
     
-    <div class="cart-summary" style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f1e3; border-radius: 12px;">
-      <h2>Total: <span id="cart-total" style="color:#d97706;">₦0</span></h2>
-      <div style="margin: 25px 0;">
-        <button onclick="clearCart()" class="btn-secondary" style="margin-right: 15px;">Clear Cart</button>
-        <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20checkout%20my%20Ralat%20Crunchies%20order" 
-           class="wa-btn-large" target="_blank" style="display: inline-block; padding: 14px 32px;">
+    <div class="cart-summary" style="text-align: center; margin-top: 40px; padding: 25px; background: #f8f1e3; border-radius: 12px;">
+      <h2>Total: <span id="cart-total" style="color:#d97706; font-size: 1.8rem;">₦0</span></h2>
+      
+      <div style="margin: 25px 0 10px;">
+        <button onclick="clearCart()" style="margin: 8px; padding: 12px 24px;">Clear Cart</button>
+        <a id="whatsapp-checkout" href="#" 
+           onclick="checkoutViaWhatsApp()" 
+           class="wa-btn-large" target="_blank" 
+           style="display: inline-block; padding: 14px 32px; background:#25D366; color:white; text-decoration:none; border-radius:50px;">
           <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
         </a>
       </div>
@@ -51,5 +83,116 @@
 </footer>
 
 <script src="store.js"></script>
+<script>
+// Render cart with quantity controls
+function renderCart() {
+  const cartItemsContainer = document.getElementById('cart-items');
+  const totalElement = document.getElementById('cart-total');
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `
+      <div style="text-align:center; padding:60px 20px;">
+        <h3>Your cart is empty</h3>
+        <p>Add some delicious coconut chips!</p>
+        <a href="shop.html" class="btn-primary">Continue Shopping</a>
+      </div>`;
+    totalElement.textContent = '₦0';
+    return;
+  }
+
+  let html = '';
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    const qty = item.quantity || 1;
+    const itemTotal = item.price * qty;
+    total += itemTotal;
+    
+    html += `
+      <div class="cart-item">
+        <div>
+          <strong>${item.name}</strong><br>
+          <span style="color:#666;">₦${item.price} each</span>
+        </div>
+        
+        <div class="quantity-controls">
+          <button onclick="changeQuantity(${index}, -1)" class="quantity-btn">-</button>
+          <span style="font-weight:600; min-width:24px; text-align:center;">${qty}</span>
+          <button onclick="changeQuantity(${index}, 1)" class="quantity-btn">+</button>
+        </div>
+        
+        <div style="text-align:right;">
+          <strong>₦${itemTotal}</strong><br>
+          <button onclick="removeFromCart(${index})" style="color:red; background:none; border:none; font-size:0.9rem; margin-top:4px;">Remove</button>
+        </div>
+      </div>`;
+  });
+
+  cartItemsContainer.innerHTML = html;
+  totalElement.textContent = '₦' + total;
+}
+
+// Change quantity
+function changeQuantity(index, change) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const newQty = (cart[index].quantity || 1) + change;
+  
+  if (newQty < 1) {
+    cart.splice(index, 1);
+  } else {
+    cart[index].quantity = newQty;
+  }
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  updateCartCount();
+}
+
+// Remove item
+function removeFromCart(index) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  updateCartCount();
+}
+
+// Clear cart
+function clearCart() {
+  if (confirm("Clear entire cart?")) {
+    localStorage.removeItem('cart');
+    renderCart();
+    updateCartCount();
+  }
+}
+
+// WhatsApp Checkout with full details
+function checkoutViaWhatsApp() {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length === 0) return;
+  
+  let message = "Hi Ralat Crunchies!%0AI want to order:%0A%0A";
+  
+  let total = 0;
+  cart.forEach(item => {
+    const qty = item.quantity || 1;
+    const itemTotal = item.price * qty;
+    message += `- ${item.name} × ${qty} = ₦${itemTotal}%0A`;
+    total += itemTotal;
+  });
+  
+  message += `%0ATotal: ₦${total}%0A%0AThank you!`;
+  
+  const url = `https://wa.me/2347061172586?text=${message}`;
+  window.open(url, '_blank');
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  renderCart();
+  updateCartCount();
+});
+</script>
 </body>
 </html>
