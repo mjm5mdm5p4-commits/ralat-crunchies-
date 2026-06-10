@@ -42,18 +42,19 @@
       margin: 30px 0;
     }
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
     .form-group label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: 600;
     }
     .form-group input, .form-group textarea {
       width: 100%;
       padding: 12px;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       border-radius: 8px;
+      font-size: 1rem;
     }
   </style>
 </head>
@@ -69,7 +70,6 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="cart.html" class="active">Cart (<span id="cartCount">0</span>)</a></li>
-      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
     </ul>
   </div>
 </nav>
@@ -79,31 +79,31 @@
     <h1 style="text-align:center;">🛒 Your Cart</h1>
     
     <div id="cart-items" style="margin: 30px 0;"></div>
-    
+
     <!-- Customer Details Form -->
     <div class="order-form">
-      <h2 style="margin-bottom:20px;">Delivery Information</h2>
+      <h2>Delivery Information</h2>
       <div class="form-group">
         <label>Full Name *</label>
         <input type="text" id="customer-name" placeholder="Enter your full name" required>
       </div>
       <div class="form-group">
         <label>Phone Number *</label>
-        <input type="tel" id="customer-phone" placeholder="e.g. 0706 117 2586" required>
+        <input type="tel" id="customer-phone" placeholder="0706 117 2586" required>
       </div>
       <div class="form-group">
         <label>Delivery Address *</label>
-        <textarea id="customer-address" rows="3" placeholder="Full address with landmark" required></textarea>
+        <textarea id="customer-address" rows="3" placeholder="Full address with landmark (e.g. near market, street name)" required></textarea>
       </div>
     </div>
     
     <div class="cart-summary" style="text-align: center; padding: 25px; background: #f8f1e3; border-radius: 12px;">
       <h2>Total: <span id="cart-total" style="color:#d97706; font-size: 1.8rem;">₦0</span></h2>
       
-      <div style="margin: 25px 0 10px;">
+      <div style="margin-top: 25px;">
         <button onclick="clearCart()" style="margin: 8px; padding: 12px 24px;">Clear Cart</button>
         <button onclick="checkoutViaWhatsApp()" 
-                style="padding: 14px 32px; background:#25D366; color:white; border:none; border-radius:50px; font-size:1.1rem; cursor:pointer;">
+                style="padding: 14px 32px; background:#25D366; color:white; border:none; border-radius:50px; font-size:1.1rem;">
           <i class="fab fa-whatsapp"></i> Send Order via WhatsApp
         </button>
       </div>
@@ -111,22 +111,16 @@
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    <p>&copy; 2026 Ralat Crunchies. All Rights Reserved.</p>
-  </div>
-</footer>
-
-<script src="store.js"></script>
+<script src="Store.js"></script>
 <script>
-// Render cart
+// Render Cart + Quantity Controls
 function renderCart() {
   const container = document.getElementById('cart-items');
   const totalEl = document.getElementById('cart-total');
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   
   if (cart.length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:60px;"><h3>Your cart is empty</h3><a href="shop.html">Continue Shopping</a></div>`;
+    container.innerHTML = `<div style="text-align:center;padding:60px;"><h3>Your cart is empty</h3><a href="shop.html">Continue Shopping</a></div>`;
     totalEl.textContent = '₦0';
     return;
   }
@@ -166,7 +160,6 @@ function changeQuantity(index, change) {
   let newQty = (cart[index].quantity || 1) + change;
   if (newQty < 1) cart.splice(index, 1);
   else cart[index].quantity = newQty;
-  
   localStorage.setItem('cart', JSON.stringify(cart));
   renderCart();
   updateCartCount();
@@ -190,22 +183,22 @@ function clearCart() {
 
 function checkoutViaWhatsApp() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  if (cart.length === 0) return alert("Your cart is empty!");
+  if (cart.length === 0) return alert("Cart is empty!");
 
   const name = document.getElementById('customer-name').value.trim();
   const phone = document.getElementById('customer-phone').value.trim();
   const address = document.getElementById('customer-address').value.trim();
 
   if (!name || !phone || !address) {
-    alert("Please fill in all delivery information!");
+    alert("Please fill in your name, phone number, and delivery address!");
     return;
   }
 
   let message = `Hi Ralat Crunchies!%0A%0A`;
   message += `👤 *Name:* ${encodeURIComponent(name)}%0A`;
   message += `📞 *Phone:* ${encodeURIComponent(phone)}%0A`;
-  message += `📍 *Delivery Address:* ${encodeURIComponent(address)}%0A%0A`;
-  message += `🛒 *Order Details:*%0A%0A`;
+  message += `📍 *Address:* ${encodeURIComponent(address)}%0A%0A`;
+  message += `🛒 *My Order:*%0A%0A`;
 
   let total = 0;
   cart.forEach(item => {
@@ -215,7 +208,7 @@ function checkoutViaWhatsApp() {
     total += itemTotal;
   });
 
-  message += `%0A*Total:* ₦${total}%0A%0A`;
+  message += `%0A*Total Amount:* ₦${total}%0A%0A`;
   message += `Please confirm my order. Thank you!`;
 
   window.open(`https://wa.me/2347061172586?text=${message}`, '_blank');
