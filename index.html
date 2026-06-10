@@ -7,60 +7,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <meta name="description" content="Premium oven-baked coconut chips from Nigeria. Fresh, crunchy & natural.">
 </head>
 <body>
 
-<!-- Navigation -->
 <nav class="navbar">
   <div class="nav-container">
     <div class="nav-logo">
-      <a href="index.html" class="logo-slide">
-        🥥 <span class="brand-name">RALAT CRUNCHIES</span>
-      </a>
+      <a href="index.html" class="logo-slide">🥥 <span class="brand-name">RALAT CRUNCHIES</span></a>
       <span class="tagline">PREMIUM COCONUT CHIPS</span>
     </div>
     <ul class="nav-menu">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
-      <li><a href="https://wa.me/2347061172586" class="wa-nav-btn" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
+      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- Hero Section -->
-<section class="hero" style="background-image: linear-gradient(rgba(61,43,28,0.7), rgba(61,43,28,0.7)), url('https://picsum.photos/id/1015/2000/1200'); background-size: cover; background-position: center;">
+<!-- Hero -->
+<section class="hero">
   <div class="container">
     <div class="hero-badge">🌿 100% NATURAL • OVEN BAKED • SMALL BATCH</div>
     <h1>Crunchy. Pure.<br><span class="highlight">Unforgettable.</span></h1>
-    <p class="hero-text">Hand-selected mature Nigerian coconuts, slow oven-baked to crispy perfection. No frying, no preservatives — just pure coconut goodness.</p>
-    
+    <p class="hero-text">Hand-selected Nigerian coconuts, slow oven-baked to crispy perfection.</p>
     <div class="hero-buttons">
       <a href="shop.html" class="btn-primary">Shop Now</a>
-      <a href="https://wa.me/2347061172586" class="btn-outline" target="_blank">Order on WhatsApp</a>
+      <a href="https://wa.me/2347061172586" class="btn-outline" target="_blank">Order via WhatsApp</a>
     </div>
   </div>
 </section>
 
-<!-- Our Story -->
+<!-- Story -->
 <section class="story-section">
   <div class="container">
     <div class="story-grid">
       <div>
         <h2>From Nigerian Farms to Your Hands</h2>
-        <p>Ralat Crunchies brings you the finest coconut chips from the coastal regions of Nigeria. We select only mature coconuts, slice them fresh, and bake in small batches to lock in maximum crunch and natural flavor.</p>
-        <ul style="margin:20px 0; line-height:1.8;">
-          <li>✓ 100% Natural & Vegan</li>
-          <li>✓ No Added Sugar or Preservatives</li>
-          <li>✓ Rich in Healthy Fats & Fiber</li>
-          <li>✓ Keto & Low-Carb Friendly</li>
-        </ul>
-        <a href="shop.html" class="btn-primary">Browse Products →</a>
+        <p>We source mature coconuts from coastal farms, slice them fresh, and bake in small batches to give you the crunchiest, purest coconut chips.</p>
+        <a href="shop.html" class="btn-primary">Explore Products →</a>
       </div>
-      <div class="story-image">
-        <img src="gold-pouch.jpg" alt="Ralat Crunchies" style="width:100%; border-radius:20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
-      </div>
+      <img src="gold-pouch.jpg" alt="Ralat Crunchies" class="story-image">
     </div>
   </div>
 </section>
@@ -68,30 +55,25 @@
 <!-- Products Teaser -->
 <section class="products-teaser">
   <div class="container">
-    <h2>Our Signature Collection</h2>
+    <h2>Our Collection</h2>
     <div class="products-grid">
       <div class="product-card">
-        <img src="gold-pouch.jpg" alt="Gold Foil Pouch" class="product-img">
+        <img src="gold-pouch.jpg" alt="Gold Pouch">
         <h3>Gold Foil Pouch</h3>
-        <p>Everyday snack size</p>
-        <div class="product-price">₦500</div>
-        <button class="add-to-cart" onclick="addToCart(1, 'Gold Foil Pouch', 500)">Add to Cart</button>
+        <p>₦500</p>
+        <button onclick="addToCart(1,'Gold Foil Pouch',500)">Add to Cart</button>
       </div>
-
       <div class="product-card featured">
-        <img src="red-jar.jpg" alt="Premium Glass Jar" class="product-img">
+        <img src="red-jar.jpg" alt="Red Jar">
         <h3>Premium Glass Jar</h3>
-        <p>Family & Sharing Size</p>
-        <div class="product-price">₦2,500</div>
-        <button class="add-to-cart" onclick="addToCart(2, 'Premium Glass Jar', 2500)">Add to Cart</button>
+        <p>₦2,500</p>
+        <button onclick="addToCart(2,'Premium Glass Jar',2500)">Add to Cart</button>
       </div>
-
       <div class="product-card">
-        <img src="bottle.jpg" alt="Convenient Bottle" class="product-img">
+        <img src="bottle.jpg" alt="Bottle">
         <h3>Convenient Bottle</h3>
-        <p>On-the-go & Travel</p>
-        <div class="product-price">₦1,500</div>
-        <button class="add-to-cart" onclick="addToCart(3, 'Convenient Bottle', 1500)">Add to Cart</button>
+        <p>₦1,500</p>
+        <button onclick="addToCart(3,'Convenient Bottle',1500)">Add to Cart</button>
       </div>
     </div>
   </div>
