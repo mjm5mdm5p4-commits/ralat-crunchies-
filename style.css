@@ -17,48 +17,49 @@ body {
   padding: 0 20px;
 }
 
-/* Navigation */
+/* ============================================
+   DEEP BROWN SIDEBAR NAVIGATION
+   ============================================ */
 .navbar {
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+  background: linear-gradient(135deg, #3D2B1C 0%, #2C1E12 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid #FFE0B5;
+  border-bottom: 2px solid #C4864B;
 }
 
 .nav-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 16px 20px;
+  padding: 18px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
 }
 
 .nav-logo a {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 800;
   text-decoration: none;
-  background: linear-gradient(135deg, #5C3D1E, #C4864B);
+  background: linear-gradient(135deg, #FFE0B5, #FFD4A0);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
 .nav-logo span {
-  font-size: 0.65rem;
-  color: #C4864B;
+  font-size: 0.7rem;
+  color: #FFD4A0;
   display: block;
   letter-spacing: 1px;
 }
 
 .nav-menu {
   display: flex;
-  gap: 25px;
+  gap: 30px;
   list-style: none;
   align-items: center;
   flex-wrap: wrap;
@@ -67,27 +68,39 @@ body {
 .nav-menu a {
   text-decoration: none;
   font-weight: 500;
-  color: #5C3D1E;
+  color: #FFE0B5;
   transition: 0.3s;
+  font-size: 0.95rem;
+  padding: 8px 0;
 }
 
 .nav-menu a:hover, .nav-menu a.active {
-  color: #C4864B;
+  color: #FFD4A0;
+  border-bottom: 2px solid #C4864B;
 }
 
 .wa-nav-btn {
   background: #25D366;
-  color: white !important;
-  padding: 8px 18px;
+  color: #1a1a1a !important;
+  padding: 10px 22px;
   border-radius: 40px;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 600 !important;
+  border-bottom: none !important;
 }
 
 .wa-nav-btn:hover {
   background: #128C7E;
   color: white !important;
+  border-bottom: none !important;
+  transform: translateY(-2px);
+}
+
+/* Cart count badge */
+.nav-menu a i {
+  margin-right: 5px;
 }
 
 /* Hero */
@@ -103,9 +116,9 @@ body {
   display: inline-block;
   background: #E8D9C8;
   color: #B87A44;
-  padding: 6px 16px;
+  padding: 6px 18px;
   border-radius: 50px;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   margin-bottom: 25px;
 }
@@ -216,14 +229,14 @@ body {
 .step-icon {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #FEF1E4, #FFE8D8);
+  background: linear-gradient(135deg, #3D2B1C, #2C1E12);
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   font-size: 1.2rem;
-  color: #C4864B;
+  color: #FFD4A0;
   margin-bottom: 15px;
 }
 
@@ -620,8 +633,8 @@ body {
 
 /* Footer */
 footer {
-  background: #2C2418;
-  color: #D4C5B5;
+  background: linear-gradient(135deg, #3D2B1C 0%, #2C1E12 100%);
+  color: #FFE0B5;
   border-radius: 40px 40px 0 0;
   padding: 40px 0 20px;
   margin-top: 60px;
@@ -640,8 +653,9 @@ footer {
   text-align: center;
   margin-top: 30px;
   padding-top: 20px;
-  border-top: 1px solid #4A3A2A;
+  border-top: 1px solid #5C3D1E;
   font-size: 0.7rem;
+  color: #D4C5B5;
 }
 
 /* Notification */
@@ -700,5 +714,8 @@ footer {
   }
   .hero {
     padding: 50px 0 30px;
+  }
+  .nav-menu {
+    justify-content: center;
   }
 }
