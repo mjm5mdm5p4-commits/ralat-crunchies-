@@ -1,1 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RALAT CRUNCHIES • Premium Coconut Chips</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+        
+        :root {
+            --cream: #F8F1E3;
+            --brown: #5C4033;
+            --purple: #8A6F9E;
+            --accent: #D4A017;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F8F1E3 0%, #EDE4D4 100%);
+            color: #3C2F2F;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: rgba(92, 64, 51, 0.95);
+            color: white;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #D4A017;
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+        
+        .hero .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .cta-button {
+            background: #D4A017;
+            color: #3C2F2F;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(212, 160, 23, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(212, 160, 23, 0.5);
+        }
+        
+        section {
+            padding: 100px 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--brown);
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.4s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-15px);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .about {
+            background: #3C2F2F;
+            color: #F8F1E3;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .benefit-card h3 {
+            color: var(--purple);
+            margin: 1rem 0;
+        }
+        
+        .testimonials {
+            background: var(--cream);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            background: #3C2F2F;
+            color: #F8F1E3;
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+        
+        .sparkle {
+            position: absolute;
+            font-size: 2rem;
+            animation: sparkle 3s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.2rem; }
+            .about-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <div class="logo">
+                <span style="font-size: 2.2rem;">🥥</span>
+                RALAT CRUNCHIES
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#why-us">Why Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>RALAT CRUNCHIES</h1>
+            <p class="subtitle">Premium Coconut Chips</p>
+            <p style="font-size: 1.4rem; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Crunch into freshness.<br>
+                Every bite. Pure coconut goodness.
+            </p>
+            <button onclick="document.getElementById('shop').scrollIntoView({ behavior: 'smooth' })" class="cta-button">
+                Shop Now
+            </button>
+            
+            <div style="margin-top: 4rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 2rem;">🌴</span>
+                    <div>
+                        <strong>100% Natural</strong><br>
+                        <small>From fresh coconuts</small>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 2rem;">✨</span>
+                    <div>
+                        <strong>Crunchy Perfection</strong><br>
+                        <small>Lightly toasted</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating elements -->
+        <div class="sparkle" style="top: 20%; left: 15%;">✨</div>
+        <div class="sparkle" style="top: 65%; right: 18%; animation-delay: 1.2s;">🥥</div>
+    </section>
+
+    <!-- Products -->
+    <section id="shop">
+        <div class="container">
+            <h2 class="section-title">Our Crunchies</h2>
+            
+            <div class="products">
+                <!-- Classic -->
+                <div class="product-card">
+                    <img src="https://picsum.photos/id/1015/600/400" alt="Classic Coconut Chips">
+                    <div class="product-info">
+                        <h3>Classic Crunch</h3>
+                        <p>Pure, lightly toasted coconut with a touch of natural sweetness.</p>
+                        <p style="margin: 1.2rem 0; font-size: 1.5rem; color: var(--accent);"><strong>$8.99</strong></p>
+                        <button onclick="alert('Added to cart! 🛒 (Demo)')" style="background:#5C4033; color:white; padding:12px 32px; border:none; border-radius:50px; cursor:pointer;">Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Sweet -->
+                <div class="product-card">
+                    <img src="https://picsum.photos/id/1080/600/400" alt="Sweet Coconut Chips">
+                    <div class="product-info">
+                        <h3>Honey Bliss</h3>
+                        <p>Drizzled with natural honey and a hint of vanilla.</p>
+                        <p style="margin: 1.2rem 0; font-size: 1.5rem; color: var(--accent);"><strong>$9.49</strong></p>
+                        <button onclick="alert('Added to cart! 🛒 (Demo)')" style="background:#5C4033; color:white; padding:12px 32px; border:none; border-radius:50px; cursor:pointer;">Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Spicy -->
+                <div class="product-card">
+                    <img src="https://picsum.photos/id/201/600/400" alt="Spicy Coconut Chips">
+                    <div class="product-info">
+                        <h3>Chili Lime Zest</h3>
+                        <p>Spicy kick with fresh lime and chili flakes.</p>
+                        <p style="margin: 1.2rem 0; font-size: 1.5rem; color: var(--accent);"><strong>$9.99</strong></p>
+                        <button onclick="alert('Added to cart! 🛒 (Demo)')" style="background:#5C4033; color:white; padding:12px 32px; border:none; border-radius:50px; cursor:pointer;">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div>
+                    <h2 style="font-size: 3rem; margin-bottom: 2rem;">From Tree to Crunch</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">
+                        At RALAT CRUNCHIES, we believe in the simple joy of pure coconut. 
+                        Our premium chips are made from carefully selected mature coconuts, 
+                        hand-sliced and gently toasted to bring out their natural richness.
+                    </p>
+                    <p style="font-size: 1.2rem;">
+                        No preservatives. No added oils. Just coconut, love, and a sprinkle of magic.
+                    </p>
+                    <div style="margin-top: 3rem;">
+                        <img src="https://picsum.photos/id/866/600/400" alt="Coconut Harvest" style="width:100%; border-radius:16px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    </div>
+                </div>
+                <div>
+                    <img src="https://picsum.photos/id/1015/600/700" alt="Product Lifestyle" style="width:100%; border-radius:16px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us -->
+    <section id="why-us">
+        <div class="container">
+            <h2 class="section-title">Why Ralat Crunchies?</h2>
+            
+            <div class="benefits">
+                <div class="benefit-card">
+                    <h1 style="font-size: 4rem; color: var(--accent);">🌴</h1>
+                    <h3>100% Pure Coconut</h3>
+                    <p>Sourced from the best tropical farms. Nothing else.</p>
+                </div>
+                <div class="benefit-card">
+                    <h1 style="font-size: 4rem; color: var(--accent);">✨</h1>
+                    <h3>Crispy & Addictive</h3>
+                    <p>Perfect balance of crunch and natural sweetness in every bite.</p>
+                </div>
+                <div class="benefit-card">
+                    <h1 style="font-size: 4rem; color: var(--accent);">❤️</h1>
+                    <h3>Healthy Snacking</h3>
+                    <p>Rich in healthy fats, fiber, and essential nutrients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Loved by Crunchers</h2>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p style="font-style: italic; margin-bottom: 1.5rem;">
+                        "These are dangerously good! I put them on everything — yogurt, salads, even ice cream. Best coconut chips I've ever had."
+                    </p>
+                    <strong>— Sarah M.</strong>
+                </div>
+                <div class="testimonial">
+                    <p style="font-style: italic; margin-bottom: 1.5rem;">
+                        "The texture is insane. Perfectly crunchy without being hard. My kids fight over the last piece!"
+                    </p>
+                    <strong>— Michael O.</strong>
+                </div>
+                <div class="testimonial">
+                    <p style="font-style: italic; margin-bottom: 1.5rem;">
+                        "Finally a snack that's actually clean and tastes amazing. The honey one is my absolute favorite."
+                    </p>
+                    <strong>— Priya K.</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact">
+        <div class="container">
+            <h2 style="color: #D4A017; margin-bottom: 1rem;">Ready to Crunch?</h2>
+            <p style="margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                Join the RALAT family. Get 15% off your first order with code <strong>FIRSTCRUNCH</strong>
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 4rem;">
+                <a href="#" style="color: #D4A017; text-decoration: none;">📧 hello@ralatcrunchies.com</a>
+                <a href="#" style="color: #D4A017; text-decoration: none;">📱 +234 901 234 5678</a>
+                <a href="#" style="color: #D4A017; text-decoration: none;">📍 Lagos, Nigeria</a>
+            </div>
+            
+            <p style="opacity: 0.7; font-size: 0.95rem;">
+                © 2026 RALAT CRUNCHIES. Made with love and coconuts. 🥥
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple cart animation
+        document.querySelectorAll('.cta-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => btn.style.transform = '', 200);
+            });
+        });
+        
+        // Smooth scrolling for nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
