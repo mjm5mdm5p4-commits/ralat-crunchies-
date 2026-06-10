@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RALAT CRUNCHIES | Cart</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Cart - RALAT CRUNCHIES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Navigation -->
 <nav class="navbar">
   <div class="nav-container">
     <div class="nav-logo">
@@ -20,44 +19,33 @@
     <ul class="nav-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
-      <li><a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
-      <li><a href="orders.html">Orders</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="contact.html" class="wa-nav-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+      <li><a href="cart.html" class="active">Cart (<span id="cartCount">0</span>)</a></li>
+      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- Cart Section -->
-<section class="cart-page">
+<section class="cart-section" style="padding: 80px 20px; min-height: 70vh;">
   <div class="container">
-    <div class="page-header">
-      <h1>🛒 Your Cart</h1>
-      <p>Review your items before checkout</p>
-    </div>
-
-    <div id="cartContainer">
-      <div class="cart-empty" style="text-align: center; padding: 60px;">
-        <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #DDBF9F;"></i>
-        <h3>Your cart is empty</h3>
-        <p>Add some delicious coconut chips to your cart!</p>
-        <a href="shop.html" class="btn-primary" style="margin-top: 20px; display: inline-block;">Continue Shopping</a>
+    <h1>Your Cart</h1>
+    <div id="cart-items" class="cart-items"></div>
+    
+    <div class="cart-summary" style="margin-top: 40px; text-align: center;">
+      <h2>Total: <span id="cart-total">₦0</span></h2>
+      <div style="margin: 30px 0;">
+        <button onclick="clearCart()" class="btn-secondary" style="margin-right: 15px;">Clear Cart</button>
+        <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20checkout%20my%20cart%20order" 
+           class="wa-btn-large" target="_blank" style="display: inline-block;">
+          <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
 <footer>
   <div class="container">
-    <div class="footer-content">
-      <p>🥥 RALAT CRUNCHIES — Premium Coconut Chips</p>
-      <p>Crunch into freshness, every bite. Pure coconut goodness.</p>
-      <p><i class="fab fa-whatsapp"></i> WhatsApp: +234 706 117 2586</p>
-    </div>
-    <div class="copyright">
-      <p>© 2025 RALAT CRUNCHIES. All rights reserved.</p>
-    </div>
+    <p>&copy; 2026 Ralat Crunchies. All Rights Reserved.</p>
   </div>
 </footer>
 
