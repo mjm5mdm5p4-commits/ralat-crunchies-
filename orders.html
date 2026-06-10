@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RALAT CRUNCHIES | My Orders</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="index.html">🥥 RALAT CRUNCHIES</a>
+      <span>PREMIUM COCONUT CHIPS</span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
+      <li><a href="orders.html" class="active">Orders</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html" class="wa-nav-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Orders Section -->
+<section class="orders-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>📦 My Orders</h1>
+      <p>Track your order history</p>
+    </div>
+
+    <div id="ordersContainer">
+      <div class="orders-empty" style="text-align: center; padding: 60px;">
+        <i class="fas fa-box-open" style="font-size: 3rem; color: #DDBF9F;"></i>
+        <h3>No orders yet</h3>
+        <p>Your order history will appear here after you place an order.</p>
+        <a href="shop.html" class="btn-primary" style="margin-top: 20px; display: inline-block;">Start Shopping</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="store.js"></script>
+</body>
+</html>
