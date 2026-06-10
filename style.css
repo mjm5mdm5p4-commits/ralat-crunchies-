@@ -719,21 +719,3 @@ footer {
     justify-content: center;
   }
 }
-/* Sliding Brand Animation */
-.logo-slide {
-  display: inline-block;
-  overflow: hidden;
-}
-
-.brand-name {
-  display: inline-block;
-  animation: slideBrand 5s infinite ease-in-out;
-  font-weight: 700;
-  letter-spacing: 3px;
-}
-
-@keyframes slideBrand {
-  0%   { transform: translateX(-25px); opacity: 0.85; }
-  50%  { transform: translateX(15px); opacity: 1; }
-  100% { transform: translateX(-25px); opacity: 0.85; }
-}
