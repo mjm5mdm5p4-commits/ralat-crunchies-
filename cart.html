@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart - RALAT CRUNCHIES</title>
+  <title>Cart - RALAT CRUNCHIES | Premium Coconut Chips</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
@@ -20,22 +20,23 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
       <li><a href="cart.html" class="active">Cart (<span id="cartCount">0</span>)</a></li>
-      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
+      <li><a href="https://wa.me/2347061172586" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
     </ul>
   </div>
 </nav>
 
-<section class="cart-section" style="padding: 80px 20px; min-height: 70vh;">
+<section class="cart-section" style="padding: 60px 20px; min-height: 70vh; background: #fffaf0;">
   <div class="container">
-    <h1>Your Cart</h1>
-    <div id="cart-items" class="cart-items"></div>
+    <h1 style="text-align:center; margin-bottom: 30px;">🛒 Your Cart</h1>
     
-    <div class="cart-summary" style="margin-top: 40px; text-align: center;">
-      <h2>Total: <span id="cart-total">₦0</span></h2>
-      <div style="margin: 30px 0;">
+    <div id="cart-items" class="cart-items" style="margin: 30px 0;"></div>
+    
+    <div class="cart-summary" style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f1e3; border-radius: 12px;">
+      <h2>Total: <span id="cart-total" style="color:#d97706;">₦0</span></h2>
+      <div style="margin: 25px 0;">
         <button onclick="clearCart()" class="btn-secondary" style="margin-right: 15px;">Clear Cart</button>
-        <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20checkout%20my%20cart%20order" 
-           class="wa-btn-large" target="_blank" style="display: inline-block;">
+        <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20checkout%20my%20Ralat%20Crunchies%20order" 
+           class="wa-btn-large" target="_blank" style="display: inline-block; padding: 14px 32px;">
           <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
         </a>
       </div>
