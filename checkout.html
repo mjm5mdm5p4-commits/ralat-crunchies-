@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RALAT CRUNCHIES | Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="index.html">🥥 RALAT CRUNCHIES</a>
+      <span>PREMIUM COCONUT CHIPS</span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
+      <li><a href="orders.html">Orders</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html" class="wa-nav-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Checkout Section -->
+<section class="checkout-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>📋 Checkout</h1>
+      <p>Review and confirm your order</p>
+    </div>
+
+    <div class="checkout-grid">
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="checkoutItems"></div>
+        <div class="order-total">
+          <span>Total:</span>
+          <strong id="checkoutTotal">₦0</strong>
+        </div>
+      </div>
+
+      <div class="customer-info">
+        <h3>Your Details</h3>
+        <form id="checkoutForm">
+          <input type="text" id="customerName" placeholder="Full Name" required>
+          <input type="tel" id="customerPhone" placeholder="Phone Number" required>
+          <input type="text" id="customerAddress" placeholder="Delivery Address" required>
+          <textarea id="orderNotes" placeholder="Additional notes (optional)"></textarea>
+          <button type="submit" class="btn-primary" id="confirmOrderBtn">
+            <i class="fab fa-whatsapp"></i> Confirm & Send to WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="store.js"></script>
+</body>
+</html>
