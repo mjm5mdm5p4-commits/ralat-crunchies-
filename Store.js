@@ -1,136 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop - RALAT CRUNCHIES | Premium Coconut Chips</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-  <meta name="description" content="Shop premium Ralat Crunchies coconut chips">
-</head>
-<body>
+// Ralat Crunchies Cart System
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-<!-- Navigation -->
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="nav-logo">
-      <a href="index.html">🥥 RALAT CRUNCHIES</a>
-      <span>PREMIUM COCONUT CHIPS</span>
-    </div>
-    <ul class="nav-menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html" class="active">Shop</a></li>
-      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
-      <li><a href="orders.html">Orders</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="https://wa.me/2347061172586" class="wa-nav-btn" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
-    </ul>
-  </div>
-</nav>
+function updateCartCount() {
+  const countElements = document.querySelectorAll('#cartCount');
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  countElements.forEach(el => {
+    if (el) el.textContent = totalItems;
+  });
+}
 
-<!-- Shop Hero -->
-<section class="shop-hero">
-  <div class="container">
-    <h1>Our Collection</h1>
-    <p>Handcrafted premium coconut chips in three convenient packaging options.</p>
-  </div>
-</section>
+function addToCart(id, name, price) {
+  const existing = cart.find(item => item.id === id);
+  if (existing) {
+    existing.quantity = (existing.quantity || 1) + 1;
+  } else {
+    cart.push({ id, name, price, quantity: 1 });
+  }
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  
+  // Success toast
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    background:#25D366; color:white; padding:15px 25px; border-radius:8px;
+    z-index:10000; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-weight:500;
+  `;
+  toast.textContent = `${name} added to cart ✓`;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => toast.remove(), 2200);
+}
 
-<!-- Products Grid -->
-<section class="shop-products">
-  <div class="container">
-    <div class="products-grid">
-      
-      <!-- Gold Nylon Pouch -->
-      <div class="product-card detailed">
-        <div class="product-badge">Best Seller</div>
-        <img src="gold-pouch.jpg" alt="Gold Foil Pouch - Ralat Crunchies" class="product-img">
-        <div class="product-info">
-          <h3>Gold Foil Pouch</h3>
-          <p class="product-desc">Premium crispy coconut chips in luxurious gold packaging.</p>
-          <ul class="product-features">
-            <li>✓ 100% Natural</li>
-            <li>✓ Oven-baked</li>
-            <li>✓ No preservatives</li>
-          </ul>
-          <div class="price-row">
-            <div class="product-price">₦500</div>
-            <span class="size">Small Pack</span>
-          </div>
-          <button class="add-to-cart btn-primary" onclick="addToCart(1, 'Gold Foil Pouch', 500)">Add to Cart</button>
-          <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20order%20Gold%20Foil%20Pouch%20(%E2%82%A6500)" class="wa-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i> Order via WhatsApp
-          </a>
-        </div>
-      </div>
-
-      <!-- Red Lid Jar -->
-      <div class="product-card detailed featured">
-        <img src="red-jar.jpg" alt="Premium Glass Jar - Ralat Crunchies" class="product-img">
-        <div class="product-info">
-          <h3>Premium Glass Jar</h3>
-          <p class="product-desc">Larger shareable size in elegant reusable glass jar with red lid.</p>
-          <ul class="product-features">
-            <li>✓ Resealable & Reusable</li>
-            <li>✓ Premium Quality</li>
-            <li>✓ Generous Portion</li>
-          </ul>
-          <div class="price-row">
-            <div class="product-price">₦2,500</div>
-            <span class="size">Large Jar</span>
-          </div>
-          <button class="add-to-cart btn-primary" onclick="addToCart(2, 'Premium Glass Jar', 2500)">Add to Cart</button>
-          <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20order%20Premium%20Glass%20Jar%20(%E2%82%A62500)" class="wa-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i> Order via WhatsApp
-          </a>
-        </div>
-      </div>
-
-      <!-- White Cap Bottle -->
-      <div class="product-card detailed">
-        <img src="bottle.jpg" alt="Convenient Bottle - Ralat Crunchies" class="product-img">
-        <div class="product-info">
-          <h3>Convenient Plastic Bottle</h3>
-          <p class="product-desc">Lightweight, portable bottle perfect for on-the-go snacking.</p>
-          <ul class="product-features">
-            <li>✓ Portable & Lightweight</li>
-            <li>✓ Easy to Carry</li>
-            <li>✓ Freshness Seal</li>
-          </ul>
-          <div class="price-row">
-            <div class="product-price">₦1,500</div>
-            <span class="size">Medium Bottle</span>
-          </div>
-          <button class="add-to-cart btn-primary" onclick="addToCart(3, 'Convenient Bottle', 1500)">Add to Cart</button>
-          <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20order%20Convenient%20Bottle%20(%E2%82%A61500)" class="wa-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i> Order via WhatsApp
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Trust Signals -->
-<section class="trust-section">
-  <div class="container">
-    <div class="trust-badges">
-      <div>🌿 100% Pure Nigerian Coconuts</div>
-      <div>🔥 Oven-Baked Freshness</div>
-      <div>♻️ Eco-Friendly Packaging</div>
-      <div>⭐ Satisfaction Guaranteed</div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p>&copy; 2026 Ralat Crunchies. All Rights Reserved. | <a href="https://wa.me/2347061172586">+234 706 117 2586</a></p>
-  </div>
-</footer>
-
-<script src="Store.js"></script>
-</body>
-</html>
+// Initialize cart count
+document.addEventListener('DOMContentLoaded', updateCartCount);
