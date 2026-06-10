@@ -35,6 +35,26 @@
       cursor: pointer;
       font-weight: bold;
     }
+    .order-form {
+      background: #f8f1e3;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -60,17 +80,32 @@
     
     <div id="cart-items" style="margin: 30px 0;"></div>
     
-    <div class="cart-summary" style="text-align: center; margin-top: 40px; padding: 25px; background: #f8f1e3; border-radius: 12px;">
+    <!-- Customer Details Form -->
+    <div class="order-form">
+      <h2 style="margin-bottom:20px;">Delivery Information</h2>
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="customer-name" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="customer-phone" placeholder="e.g. 0706 117 2586" required>
+      </div>
+      <div class="form-group">
+        <label>Delivery Address *</label>
+        <textarea id="customer-address" rows="3" placeholder="Full address with landmark" required></textarea>
+      </div>
+    </div>
+    
+    <div class="cart-summary" style="text-align: center; padding: 25px; background: #f8f1e3; border-radius: 12px;">
       <h2>Total: <span id="cart-total" style="color:#d97706; font-size: 1.8rem;">₦0</span></h2>
       
       <div style="margin: 25px 0 10px;">
         <button onclick="clearCart()" style="margin: 8px; padding: 12px 24px;">Clear Cart</button>
-        <a id="whatsapp-checkout" href="#" 
-           onclick="checkoutViaWhatsApp()" 
-           class="wa-btn-large" target="_blank" 
-           style="display: inline-block; padding: 14px 32px; background:#25D366; color:white; text-decoration:none; border-radius:50px;">
-          <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
-        </a>
+        <button onclick="checkoutViaWhatsApp()" 
+                style="padding: 14px 32px; background:#25D366; color:white; border:none; border-radius:50px; font-size:1.1rem; cursor:pointer;">
+          <i class="fab fa-whatsapp"></i> Send Order via WhatsApp
+        </button>
       </div>
     </div>
   </div>
@@ -84,20 +119,15 @@
 
 <script src="store.js"></script>
 <script>
-// Render cart with quantity controls
+// Render cart
 function renderCart() {
-  const cartItemsContainer = document.getElementById('cart-items');
-  const totalElement = document.getElementById('cart-total');
+  const container = document.getElementById('cart-items');
+  const totalEl = document.getElementById('cart-total');
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   
   if (cart.length === 0) {
-    cartItemsContainer.innerHTML = `
-      <div style="text-align:center; padding:60px 20px;">
-        <h3>Your cart is empty</h3>
-        <p>Add some delicious coconut chips!</p>
-        <a href="shop.html" class="btn-primary">Continue Shopping</a>
-      </div>`;
-    totalElement.textContent = '₦0';
+    container.innerHTML = `<div style="text-align:center; padding:60px;"><h3>Your cart is empty</h3><a href="shop.html">Continue Shopping</a></div>`;
+    totalEl.textContent = '₦0';
     return;
   }
 
@@ -115,41 +145,33 @@ function renderCart() {
           <strong>${item.name}</strong><br>
           <span style="color:#666;">₦${item.price} each</span>
         </div>
-        
         <div class="quantity-controls">
           <button onclick="changeQuantity(${index}, -1)" class="quantity-btn">-</button>
-          <span style="font-weight:600; min-width:24px; text-align:center;">${qty}</span>
+          <span style="font-weight:600; min-width:30px; text-align:center;">${qty}</span>
           <button onclick="changeQuantity(${index}, 1)" class="quantity-btn">+</button>
         </div>
-        
         <div style="text-align:right;">
           <strong>₦${itemTotal}</strong><br>
-          <button onclick="removeFromCart(${index})" style="color:red; background:none; border:none; font-size:0.9rem; margin-top:4px;">Remove</button>
+          <button onclick="removeFromCart(${index})" style="color:red; background:none; border:none;">Remove</button>
         </div>
       </div>`;
   });
 
-  cartItemsContainer.innerHTML = html;
-  totalElement.textContent = '₦' + total;
+  container.innerHTML = html;
+  totalEl.textContent = '₦' + total;
 }
 
-// Change quantity
 function changeQuantity(index, change) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const newQty = (cart[index].quantity || 1) + change;
-  
-  if (newQty < 1) {
-    cart.splice(index, 1);
-  } else {
-    cart[index].quantity = newQty;
-  }
+  let newQty = (cart[index].quantity || 1) + change;
+  if (newQty < 1) cart.splice(index, 1);
+  else cart[index].quantity = newQty;
   
   localStorage.setItem('cart', JSON.stringify(cart));
   renderCart();
   updateCartCount();
 }
 
-// Remove item
 function removeFromCart(index) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.splice(index, 1);
@@ -158,7 +180,6 @@ function removeFromCart(index) {
   updateCartCount();
 }
 
-// Clear cart
 function clearCart() {
   if (confirm("Clear entire cart?")) {
     localStorage.removeItem('cart');
@@ -167,25 +188,37 @@ function clearCart() {
   }
 }
 
-// WhatsApp Checkout with full details
 function checkoutViaWhatsApp() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  if (cart.length === 0) return;
-  
-  let message = "Hi Ralat Crunchies!%0AI want to order:%0A%0A";
-  
+  if (cart.length === 0) return alert("Your cart is empty!");
+
+  const name = document.getElementById('customer-name').value.trim();
+  const phone = document.getElementById('customer-phone').value.trim();
+  const address = document.getElementById('customer-address').value.trim();
+
+  if (!name || !phone || !address) {
+    alert("Please fill in all delivery information!");
+    return;
+  }
+
+  let message = `Hi Ralat Crunchies!%0A%0A`;
+  message += `👤 *Name:* ${encodeURIComponent(name)}%0A`;
+  message += `📞 *Phone:* ${encodeURIComponent(phone)}%0A`;
+  message += `📍 *Delivery Address:* ${encodeURIComponent(address)}%0A%0A`;
+  message += `🛒 *Order Details:*%0A%0A`;
+
   let total = 0;
   cart.forEach(item => {
     const qty = item.quantity || 1;
     const itemTotal = item.price * qty;
-    message += `- ${item.name} × ${qty} = ₦${itemTotal}%0A`;
+    message += `• ${item.name} × ${qty} = ₦${itemTotal}%0A`;
     total += itemTotal;
   });
-  
-  message += `%0ATotal: ₦${total}%0A%0AThank you!`;
-  
-  const url = `https://wa.me/2347061172586?text=${message}`;
-  window.open(url, '_blank');
+
+  message += `%0A*Total:* ₦${total}%0A%0A`;
+  message += `Please confirm my order. Thank you!`;
+
+  window.open(`https://wa.me/2347061172586?text=${message}`, '_blank');
 }
 
 // Initialize
