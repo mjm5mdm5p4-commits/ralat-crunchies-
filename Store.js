@@ -1,327 +1,136 @@
-// ============================================
-// RALAT CRUNCHIES - Complete Store JavaScript
-// ============================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - RALAT CRUNCHIES | Premium Coconut Chips</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Shop premium Ralat Crunchies coconut chips">
+</head>
+<body>
 
-// Products Data
-const products = [
-  {
-    id: 1,
-    name: "Small Pack",
-    weight: "50g",
-    price: 500,
-    icon: "fa-coconut",
-    featured: false,
-    bestSeller: false
-  },
-  {
-    id: 2,
-    name: "Medium Pack",
-    weight: "150g",
-    price: 1500,
-    icon: "fa-crown",
-    featured: true,
-    bestSeller: true
-  },
-  {
-    id: 3,
-    name: "Large Pack",
-    weight: "300g",
-    price: 2500,
-    icon: "fa-users",
-    featured: false,
-    bestSeller: false
-  }
-];
-
-// ========== CART FUNCTIONS ==========
-function getCart() {
-  const cart = localStorage.getItem('ralat_cart');
-  return cart ? JSON.parse(cart) : [];
-}
-
-function saveCart(cart) {
-  localStorage.setItem('ralat_cart', JSON.stringify(cart));
-  updateCartCount();
-}
-
-function addToCart(productId, quantity = 1) {
-  const cart = getCart();
-  const existingItem = cart.find(item => item.id === productId);
-  
-  if (existingItem) {
-    existingItem.quantity += quantity;
-  } else {
-    const product = products.find(p => p.id === productId);
-    cart.push({
-      id: product.id,
-      name: product.name,
-      weight: product.weight,
-      price: product.price,
-      quantity: quantity
-    });
-  }
-  
-  saveCart(cart);
-  showNotification('✓ Added to cart!', 'success');
-}
-
-function removeFromCart(productId) {
-  let cart = getCart();
-  cart = cart.filter(item => item.id !== productId);
-  saveCart(cart);
-  if (window.location.pathname.includes('cart.html')) {
-    renderCartPage();
-  }
-  showNotification('Removed from cart', 'info');
-}
-
-function updateQuantity(productId, newQuantity) {
-  if (newQuantity < 1) {
-    removeFromCart(productId);
-    return;
-  }
-  
-  const cart = getCart();
-  const item = cart.find(item => item.id === productId);
-  if (item) {
-    item.quantity = newQuantity;
-    saveCart(cart);
-    renderCartPage();
-  }
-}
-
-function getCartTotal() {
-  const cart = getCart();
-  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-}
-
-function updateCartCount() {
-  const cart = getCart();
-  const count = cart.reduce((total, item) => total + item.quantity, 0);
-  const cartCountElements = document.querySelectorAll('#cartCount');
-  cartCountElements.forEach(el => {
-    if (el) el.innerText = count;
-  });
-}
-
-// ========== NOTIFICATION ==========
-function showNotification(message, type = 'success') {
-  const notification = document.createElement('div');
-  notification.className = `notification notification-${type}`;
-  notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${message}</span>`;
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
-}
-
-// ========== RENDER SHOP PAGE ==========
-function renderShopPage() {
-  const productsGrid = document.getElementById('productsGrid');
-  if (!productsGrid) return;
-  
-  productsGrid.innerHTML = products.map(product => `
-    <div class="product-card ${product.featured ? 'featured' : ''}">
-      ${product.bestSeller ? '<div class="product-badge">🔥 Best Seller</div>' : ''}
-      <div class="product-icon"><i class="fas ${product.icon}"></i></div>
-      <h3 class="product-title">${product.name}</h3>
-      <div class="product-weight">${product.weight}</div>
-      <div class="product-price">₦${product.price.toLocaleString()}</div>
-      <button class="add-to-cart" onclick="addToCart(${product.id})">
-        <i class="fas fa-shopping-cart"></i> Add to Cart
-      </button>
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="index.html">🥥 RALAT CRUNCHIES</a>
+      <span>PREMIUM COCONUT CHIPS</span>
     </div>
-  `).join('');
-}
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a></li>
+      <li><a href="orders.html">Orders</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://wa.me/2347061172586" class="wa-nav-btn" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a></li>
+    </ul>
+  </div>
+</nav>
 
-// ========== RENDER CART PAGE ==========
-function renderCartPage() {
-  const cartContainer = document.getElementById('cartContainer');
-  if (!cartContainer) return;
-  
-  const cart = getCart();
-  
-  if (cart.length === 0) {
-    cartContainer.innerHTML = `
-      <div style="text-align: center; padding: 60px;">
-        <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #DDBF9F;"></i>
-        <h3>Your cart is empty</h3>
-        <p>Add some delicious coconut chips to your cart!</p>
-        <a href="shop.html" class="btn-primary" style="margin-top: 20px; display: inline-block;">Continue Shopping</a>
-      </div>
-    `;
-    return;
-  }
-  
-  cartContainer.innerHTML = `
-    <div class="cart-items">
-      ${cart.map(item => `
-        <div class="cart-item">
-          <div class="cart-item-info">
-            <h4>${item.name} - ${item.weight}</h4>
-            <div class="cart-item-price">₦${item.price.toLocaleString()} each</div>
+<!-- Shop Hero -->
+<section class="shop-hero">
+  <div class="container">
+    <h1>Our Collection</h1>
+    <p>Handcrafted premium coconut chips in three convenient packaging options.</p>
+  </div>
+</section>
+
+<!-- Products Grid -->
+<section class="shop-products">
+  <div class="container">
+    <div class="products-grid">
+      
+      <!-- Gold Nylon Pouch -->
+      <div class="product-card detailed">
+        <div class="product-badge">Best Seller</div>
+        <img src="gold-pouch.jpg" alt="Gold Foil Pouch - Ralat Crunchies" class="product-img">
+        <div class="product-info">
+          <h3>Gold Foil Pouch</h3>
+          <p class="product-desc">Premium crispy coconut chips in luxurious gold packaging.</p>
+          <ul class="product-features">
+            <li>✓ 100% Natural</li>
+            <li>✓ Oven-baked</li>
+            <li>✓ No preservatives</li>
+          </ul>
+          <div class="price-row">
+            <div class="product-price">₦500</div>
+            <span class="size">Small Pack</span>
           </div>
-          <div class="cart-item-quantity">
-            <button class="qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-            <span>${item.quantity}</span>
-            <button class="qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
-          </div>
-          <div><strong>₦${(item.price * item.quantity).toLocaleString()}</strong></div>
-          <button class="btn-danger" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i> Remove</button>
+          <button class="add-to-cart btn-primary" onclick="addToCart(1, 'Gold Foil Pouch', 500)">Add to Cart</button>
+          <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20order%20Gold%20Foil%20Pouch%20(%E2%82%A6500)" class="wa-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Order via WhatsApp
+          </a>
         </div>
-      `).join('')}
-    </div>
-    <div class="cart-summary">
-      <h3>Cart Summary</h3>
-      <div>Subtotal: <strong>₦${getCartTotal().toLocaleString()}</strong></div>
-      <div>Delivery: <strong>Free</strong></div>
-      <div class="cart-total">Total: ₦${getCartTotal().toLocaleString()}</div>
-      <a href="checkout.html" class="btn-primary">Proceed to Checkout →</a>
-    </div>
-  `;
-}
-
-// ========== RENDER CHECKOUT PAGE ==========
-function renderCheckoutPage() {
-  const checkoutItems = document.getElementById('checkoutItems');
-  const checkoutTotal = document.getElementById('checkoutTotal');
-  const cart = getCart();
-  
-  if (!checkoutItems) return;
-  
-  if (cart.length === 0) {
-    window.location.href = 'shop.html';
-    return;
-  }
-  
-  checkoutItems.innerHTML = cart.map(item => `
-    <div class="checkout-item">
-      <span>${item.name} (${item.weight}) x ${item.quantity}</span>
-      <span>₦${(item.price * item.quantity).toLocaleString()}</span>
-    </div>
-  `).join('');
-  
-  if (checkoutTotal) {
-    checkoutTotal.innerText = `₦${getCartTotal().toLocaleString()}`;
-  }
-}
-
-// ========== ORDER FUNCTIONS ==========
-function saveOrder(order) {
-  const orders = JSON.parse(localStorage.getItem('ralat_orders') || '[]');
-  orders.push({
-    ...order,
-    id: 'ORD' + Date.now(),
-    date: new Date().toISOString(),
-    status: 'pending'
-  });
-  localStorage.setItem('ralat_orders', JSON.stringify(orders));
-}
-
-function renderOrdersPage() {
-  const ordersContainer = document.getElementById('ordersContainer');
-  if (!ordersContainer) return;
-  
-  const orders = JSON.parse(localStorage.getItem('ralat_orders') || '[]');
-  
-  if (orders.length === 0) {
-    ordersContainer.innerHTML = `
-      <div style="text-align: center; padding: 60px;">
-        <i class="fas fa-box-open" style="font-size: 3rem; color: #DDBF9F;"></i>
-        <h3>No orders yet</h3>
-        <p>Your order history will appear here after you place an order.</p>
-        <a href="shop.html" class="btn-primary" style="margin-top: 20px; display: inline-block;">Start Shopping</a>
       </div>
-    `;
-    return;
-  }
-  
-  ordersContainer.innerHTML = orders.reverse().map(order => `
-    <div class="order-card">
-      <div class="order-header">
-        <span class="order-id">${order.id}</span>
-        <span class="order-status status-${order.status}">${order.status === 'pending' ? '⏳ Pending' : '✅ Confirmed'}</span>
+
+      <!-- Red Lid Jar -->
+      <div class="product-card detailed featured">
+        <img src="red-jar.jpg" alt="Premium Glass Jar - Ralat Crunchies" class="product-img">
+        <div class="product-info">
+          <h3>Premium Glass Jar</h3>
+          <p class="product-desc">Larger shareable size in elegant reusable glass jar with red lid.</p>
+          <ul class="product-features">
+            <li>✓ Resealable & Reusable</li>
+            <li>✓ Premium Quality</li>
+            <li>✓ Generous Portion</li>
+          </ul>
+          <div class="price-row">
+            <div class="product-price">₦2,500</div>
+            <span class="size">Large Jar</span>
+          </div>
+          <button class="add-to-cart btn-primary" onclick="addToCart(2, 'Premium Glass Jar', 2500)">Add to Cart</button>
+          <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20order%20Premium%20Glass%20Jar%20(%E2%82%A62500)" class="wa-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Order via WhatsApp
+          </a>
+        </div>
       </div>
-      <div><strong>Date:</strong> ${new Date(order.date).toLocaleDateString()}</div>
-      <div><strong>Items:</strong> ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}</div>
-      <div><strong>Total:</strong> ₦${order.total.toLocaleString()}</div>
-      <div><strong>Delivery:</strong> ${order.address}</div>
-      <div style="margin-top: 10px;">
-        <a href="https://wa.me/2347061172586?text=I%20have%20a%20question%20about%20order%20${order.id}" class="btn-outline" style="padding: 5px 15px; font-size: 0.8rem;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Track Order
-        </a>
+
+      <!-- White Cap Bottle -->
+      <div class="product-card detailed">
+        <img src="bottle.jpg" alt="Convenient Bottle - Ralat Crunchies" class="product-img">
+        <div class="product-info">
+          <h3>Convenient Plastic Bottle</h3>
+          <p class="product-desc">Lightweight, portable bottle perfect for on-the-go snacking.</p>
+          <ul class="product-features">
+            <li>✓ Portable & Lightweight</li>
+            <li>✓ Easy to Carry</li>
+            <li>✓ Freshness Seal</li>
+          </ul>
+          <div class="price-row">
+            <div class="product-price">₦1,500</div>
+            <span class="size">Medium Bottle</span>
+          </div>
+          <button class="add-to-cart btn-primary" onclick="addToCart(3, 'Convenient Bottle', 1500)">Add to Cart</button>
+          <a href="https://wa.me/2347061172586?text=Hi%2C%20I%20want%20to%20order%20Convenient%20Bottle%20(%E2%82%A61500)" class="wa-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> Order via WhatsApp
+          </a>
+        </div>
       </div>
+
     </div>
-  `).join('');
-}
+  </div>
+</section>
 
-// ========== CHECKOUT FORM ==========
-function setupCheckoutForm() {
-  const form = document.getElementById('checkoutForm');
-  if (!form) return;
-  
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('customerName').value;
-    const phone = document.getElementById('customerPhone').value;
-    const address = document.getElementById('customerAddress').value;
-    const notes = document.getElementById('orderNotes')?.value || '';
-    const cart = getCart();
-    
-    if (cart.length === 0) {
-      showNotification('Your cart is empty!', 'info');
-      return;
-    }
-    
-    const total = getCartTotal();
-    const itemsList = cart.map(item => `${item.name} (${item.weight}) x${item.quantity} = ₦${(item.price * item.quantity).toLocaleString()}`).join('\n');
-    
-    // Save order
-    saveOrder({
-      customerName: name,
-      customerPhone: phone,
-      address: address,
-      notes: notes,
-      items: cart,
-      total: total
-    });
-    
-    // WhatsApp message
-    const message = `*NEW ORDER FROM RALAT CRUNCHIES* 🥥\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\n*Order Items:*\n${itemsList}\n\n*Total: ₦${total.toLocaleString()}*\n\n${notes ? `*Notes:* ${notes}` : ''}\n\nPlease confirm my order. Thanks!`;
-    
-    // Clear cart
-    localStorage.removeItem('ralat_cart');
-    
-    // Open WhatsApp
-    window.open(`https://wa.me/2347061172586?text=${encodeURIComponent(message)}`, '_blank');
-    
-    // Redirect
-    setTimeout(() => {
-      window.location.href = 'orders.html';
-    }, 1000);
-    
-    showNotification('Order sent to WhatsApp!', 'success');
-  });
-}
+<!-- Trust Signals -->
+<section class="trust-section">
+  <div class="container">
+    <div class="trust-badges">
+      <div>🌿 100% Pure Nigerian Coconuts</div>
+      <div>🔥 Oven-Baked Freshness</div>
+      <div>♻️ Eco-Friendly Packaging</div>
+      <div>⭐ Satisfaction Guaranteed</div>
+    </div>
+  </div>
+</section>
 
-// ========== INITIALIZE PAGE ==========
-function initPage() {
-  updateCartCount();
-  
-  const path = window.location.pathname;
-  
-  if (path.includes('shop.html')) {
-    renderShopPage();
-  } else if (path.includes('cart.html')) {
-    renderCartPage();
-  } else if (path.includes('checkout.html')) {
-    renderCheckoutPage();
-    setupCheckoutForm();
-  } else if (path.includes('orders.html')) {
-    renderOrdersPage();
-  }
-}
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Ralat Crunchies. All Rights Reserved. | <a href="https://wa.me/2347061172586">+234 706 117 2586</a></p>
+  </div>
+</footer>
 
-document.addEventListener('DOMContentLoaded', initPage);
+<script src="Store.js"></script>
+</body>
+</html>
