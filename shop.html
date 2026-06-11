@@ -38,25 +38,34 @@
 
 <script src="Store.js"></script>
 <script>
-// Load products from Admin
 function loadShopProducts() {
   const container = document.getElementById('products-container');
+  
   let products = JSON.parse(localStorage.getItem('ralatProducts')) || [];
+
+  // Original products (always show with real images)
+  const original = [
+    {id: 1, name: "Gold Foil Pouch", price: 500, image: "gold-pouch.jpg"},
+    {id: 2, name: "Premium Glass Jar", price: 2500, image: "red-jar.jpg"},
+    {id: 3, name: "Convenient Bottle", price: 1500, image: "bottle.jpg"}
+  ];
+
+  // Combine both
+  products = [...original, ...products];
 
   let html = '';
   products.forEach(product => {
-    const imgSrc = product.image || 'gold-pouch.jpg'; // fallback
     html += `
       <div class="product-card">
-        <img src="${imgSrc}" alt="${product.name}" 
+        <img src="${product.image}" alt="${product.name}" 
              onerror="this.src='https://via.placeholder.com/300x200/8B4513/fff?text=${encodeURIComponent(product.name)}'">
         <h3>${product.name}</h3>
         <p>₦${product.price}</p>
-        <button onclick="addToCart(${product.id || Date.now()}, '${product.name}', ${product.price})">Add to Cart</button>
+        <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">Add to Cart</button>
       </div>`;
   });
 
-  container.innerHTML = html || '<p style="text-align:center;padding:50px;">No products yet. Add from Admin page.</p>';
+  container.innerHTML = html;
 }
 
 document.addEventListener('DOMContentLoaded', loadShopProducts);
