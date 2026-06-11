@@ -11,7 +11,7 @@
     input, textarea, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
     button { background: #25D366; color: white; border: none; cursor: pointer; font-weight: bold; padding: 14px; }
     button:hover { background: #1ea14f; }
-    .delete-btn { background: #ef4444; padding: 6px 12px; width: auto; display: inline-block; }
+    .delete-btn { background: #ef4444; padding: 6px 12px; width: auto; }
     .product-item { padding: 15px; border: 1px solid #eee; margin: 10px 0; border-radius: 8px; background: #fffaf0; }
   </style>
 </head>
@@ -45,6 +45,8 @@
 <script>
 const ADMIN_PASSWORD = "Ralat@2026";
 
+let products = JSON.parse(localStorage.getItem('ralatProducts')) || [];
+
 function login() {
   if (document.getElementById('admin-pass').value === ADMIN_PASSWORD) {
     document.getElementById('login-screen').style.display = 'none';
@@ -54,8 +56,6 @@ function login() {
     alert("Wrong password!");
   }
 }
-
-let products = JSON.parse(localStorage.getItem('ralatProducts')) || [];
 
 function addNewProduct() {
   const name = document.getElementById('prod-name').value.trim();
@@ -72,6 +72,7 @@ function addNewProduct() {
   localStorage.setItem('ralatProducts', JSON.stringify(products));
   loadProducts();
   
+  // Clear form
   document.getElementById('prod-name').value = '';
   document.getElementById('prod-price').value = '';
   document.getElementById('prod-desc').value = '';
@@ -84,7 +85,7 @@ function loadProducts() {
     <div class="product-item">
       <strong>${p.name}</strong> — ₦${p.price}<br>
       <small>${p.desc || ''}</small><br>
-      <small>Image: ${p.image}</small><br>
+      <small>Image: ${p.image.substring(0, 50)}...</small><br>
       <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
     </div>
   `).join('');
