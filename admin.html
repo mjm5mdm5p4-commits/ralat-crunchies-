@@ -8,10 +8,11 @@
   <style>
     body { font-family: 'Inter', sans-serif; padding: 20px; background: #f8f1e3; margin: 0; }
     .admin-container { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    input, textarea, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+    input, textarea, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
     button { background: #25D366; color: white; border: none; cursor: pointer; font-weight: bold; padding: 14px; }
     button:hover { background: #1ea14f; }
-    .product-item { padding: 15px; border: 1px solid #eee; margin: 10px 0; border-radius: 8px; background: #fffaf0; }
+    .delete-btn { background: #ef4444; padding: 6px 12px; font-size: 14px; width: auto; display: inline-block; }
+    .product-item { padding: 15px; border: 1px solid #eee; margin: 10px 0; border-radius: 8px; background: #fffaf0; position: relative; }
   </style>
 </head>
 <body>
@@ -30,11 +31,11 @@
     <input type="text" id="prod-name" placeholder="Product Name">
     <input type="number" id="prod-price" placeholder="Price (e.g. 2000)">
     <textarea id="prod-desc" placeholder="Description" rows="3"></textarea>
-    <input type="text" id="prod-image" placeholder="Image name (e.g. new-product.jpg)">
+    <input type="text" id="prod-image" placeholder="Image filename (e.g. new-product.jpg)">
     
     <button onclick="addNewProduct()">Add Product</button>
 
-    <h2>Current Products</h2>
+    <h2 style="margin-top:40px;">Current Products</h2>
     <div id="product-list"></div>
 
     <button onclick="logout()" style="background:#ef4444; margin-top:20px;">Logout</button>
@@ -62,25 +63,37 @@ function addNewProduct() {
   const desc = document.getElementById('prod-desc').value.trim();
   const image = document.getElementById('prod-image').value.trim() || 'placeholder.jpg';
 
-  if (!name || !price) return alert("Name and price required");
+  if (!name || !price) return alert("Name and price are required");
 
   products.push({id: Date.now(), name, price, desc, image});
   localStorage.setItem('ralatProducts', JSON.stringify(products));
   loadProducts();
   
+  // Clear inputs
   document.getElementById('prod-name').value = '';
   document.getElementById('prod-price').value = '';
   document.getElementById('prod-desc').value = '';
+  document.getElementById('prod-image').value = '';
 }
 
 function loadProducts() {
   const list = document.getElementById('product-list');
-  list.innerHTML = products.map(p => `
+  list.innerHTML = products.map((p, index) => `
     <div class="product-item">
       <strong>${p.name}</strong> — ₦${p.price}<br>
-      <small>${p.desc}</small>
+      <small>${p.desc || ''}</small><br>
+      <small>Image: ${p.image}</small>
+      <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
     </div>
   `).join('');
+}
+
+function deleteProduct(index) {
+  if (confirm("Delete this product?")) {
+    products.splice(index, 1);
+    localStorage.setItem('ralatProducts', JSON.stringify(products));
+    loadProducts();
+  }
 }
 
 function logout() {
