@@ -38,20 +38,20 @@
 
 <script src="Store.js"></script>
 <script>
+// Stable version - Original products always show + new ones from Admin
 function loadShopProducts() {
   const container = document.getElementById('products-container');
   
-  let products = JSON.parse(localStorage.getItem('ralatProducts')) || [];
-
-  // Original products (always show with real images)
-  const original = [
+  // Original products (will never disappear)
+  let products = [
     {id: 1, name: "Gold Foil Pouch", price: 500, image: "gold-pouch.jpg"},
     {id: 2, name: "Premium Glass Jar", price: 2500, image: "red-jar.jpg"},
     {id: 3, name: "Convenient Bottle", price: 1500, image: "bottle.jpg"}
   ];
 
-  // Combine both
-  products = [...original, ...products];
+  // Add new products from Admin
+  let adminProducts = JSON.parse(localStorage.getItem('ralatProducts')) || [];
+  products = [...products, ...adminProducts];
 
   let html = '';
   products.forEach(product => {
