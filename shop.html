@@ -32,54 +32,31 @@
 
 <section class="shop-products">
   <div class="container">
-    <div class="products-grid" id="products-container">
-      <!-- Products loaded from Admin + old ones -->
-    </div>
+    <div class="products-grid" id="products-container"></div>
   </div>
 </section>
 
 <script src="Store.js"></script>
 <script>
-// Load products (Admin + fallback old products)
+// Load products from Admin
 function loadShopProducts() {
   const container = document.getElementById('products-container');
-  
-  // Get products from Admin
-  let adminProducts = JSON.parse(localStorage.getItem('ralatProducts')) || [];
-  
-  // Fallback old products (so they don't disappear)
-  let allProducts = [...adminProducts];
-  
-  // Add old products if not already in admin
-  const oldProducts = [
-    {id: 1, name: "Gold Foil Pouch", price: 500, image: "gold-pouch.jpg"},
-    {id: 2, name: "Premium Glass Jar", price: 2500, image: "red-jar.jpg"},
-    {id: 3, name: "Convenient Bottle", price: 1500, image: "bottle.jpg"}
-  ];
-
-  oldProducts.forEach(old => {
-    if (!allProducts.find(p => p.name === old.name)) {
-      allProducts.push(old);
-    }
-  });
-
-  if (allProducts.length === 0) {
-    container.innerHTML = `<p style="text-align:center;padding:50px;">No products yet.</p>`;
-    return;
-  }
+  let products = JSON.parse(localStorage.getItem('ralatProducts')) || [];
 
   let html = '';
-  allProducts.forEach(product => {
+  products.forEach(product => {
+    const imgSrc = product.image || 'gold-pouch.jpg'; // fallback
     html += `
       <div class="product-card">
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200/8B4513/fff?text=${encodeURIComponent(product.name)}'">
+        <img src="${imgSrc}" alt="${product.name}" 
+             onerror="this.src='https://via.placeholder.com/300x200/8B4513/fff?text=${encodeURIComponent(product.name)}'">
         <h3>${product.name}</h3>
         <p>₦${product.price}</p>
-        <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">Add to Cart</button>
+        <button onclick="addToCart(${product.id || Date.now()}, '${product.name}', ${product.price})">Add to Cart</button>
       </div>`;
   });
 
-  container.innerHTML = html;
+  container.innerHTML = html || '<p style="text-align:center;padding:50px;">No products yet. Add from Admin page.</p>';
 }
 
 document.addEventListener('DOMContentLoaded', loadShopProducts);
