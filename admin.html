@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - RALAT CRUNCHIES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; padding: 20px; background: #f8f1e3; }
+    .admin-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    input, textarea, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+    button { background: #25D366; color: white; border: none; cursor: pointer; font-weight: bold; padding: 14px; }
+    .product-list { margin-top: 30px; }
+    .product-item { padding: 15px; border: 1px solid #eee; margin: 10px 0; border-radius: 8px; background: #fffaf0; }
+  </style>
+</head>
+<body>
+
+<div class="admin-container">
+  <h1>🔐 Admin Panel - Ralat Crunchies</h1>
+  
+  <div id="login-screen">
+    <h3>Enter Admin Password</h3>
+    <input type="password" id="admin-pass" placeholder="Enter Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="admin-panel" style="display:none;">
+    <h2>Add New Product</h2>
+    <input type="text" id="prod-name" placeholder="Product Name (e.g. Spicy Coconut Chips)">
+    <input type="number" id="prod-price" placeholder="Price (e.g. 2000)">
+    <textarea id="prod-desc" placeholder="Short description" rows="3"></textarea>
+    <input type="text" id="prod-image" placeholder="Image filename (e.g. spicy.jpg)">
+    
+    <button onclick="addNewProduct()">Add Product</button>
+
+    <h2 style="margin-top:40px;">Current Products</h2>
+    <div id="product-list" class="product-list"></div>
+
+    <button onclick="exportProducts()" style="background:#d97706; margin-top:20px;">Export Products</button>
+    <button onclick="logout()" style="background:#ef4444; margin-top:10px;">Logout</button>
+  </div>
+</div>
+
+<script>
+// New Password
+const ADMIN_PASSWORD = "Ralat@2026";
+
+function login() {
+  const pass = document.getElementById('admin-pass').value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadProducts();
+  } else {
+    alert("Wrong password! Try again.");
+  }
+}
+
+let products = JSON.parse(localStorage.getItem('ralatProducts')) || [];
+
+function addNewProduct() {
+  const name = document.getElementById('prod-name').value.trim();
+  const price = parseInt(document.getElementById('prod-price').value);
+  const desc = document.getElementById('prod-desc').value.trim();
+  const image = document.getElementById('prod-image').value.trim() || 'placeholder.jpg';
+
+  if (!name || !price) {
+    alert("Product name and price are required!");
+    return;
+  }
+
+  products.push({ 
+    id: Date.now(), 
+    name, 
+    price, 
+    desc, 
+    image 
+  });
+
+  localStorage.setItem('ralatProducts', JSON.stringify(products));
+  loadProducts();
+  
+  // Clear form
+  document.getElementById('prod-name').value = '';
+  document.getElementById('prod-price').value = '';
+  document.getElementById('prod-desc').value = '';
+  document.getElementById('prod-image').value = '';
+}
+
+function loadProducts() {
+  const list = document.getElementById('product-list');
+  list.innerHTML = products.map(p => `
+    <div class="product-item">
+      <strong>${p.name}</strong> — ₦${p.price}<br>
+      <small>${p.desc}</small><br>
+      <small>Image: ${p.image}</small>
+    </div>
+  `).join('');
+}
+
+function exportProducts() {
+  console.log("%c Copy these products:", "color:green;font-weight:bold", products);
+  alert("✅ Products saved! Open browser console (F12) → Copy the list and send it to me so I can update your shop page.");
+}
+
+function logout() {
+  location.reload();
+}
+</script>
+</body>
+</html>
